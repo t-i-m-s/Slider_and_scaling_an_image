@@ -1,0 +1,58 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    position: relative;
+    background-color: darkslategray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+#slider{
+    position: relative;
+}
+#l_button::before{
+    content: "<";
+}
+#r_button::after{
+    content: ">";
+}
+#l_button{
+    left: 0;
+}
+#r_button{
+    right: 0;
+}
+button{
+    z-index: 10;
+    position: absolute;
+    background-color: black;
+    color: aqua;
+    display: flex;
+    height: 40px;
+    width: 20px;
+    top: 50%;
+}
+#scope{
+    z-index: 1;
+    position: absolute;
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+#glass{
+    z-index: 5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+#scaled{
+    position: absolute;
+}

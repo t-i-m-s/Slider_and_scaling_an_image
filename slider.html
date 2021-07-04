@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="scope" style="visibility: hidden;">
+        <img src="1.jpg" alt="" id="scaled">
+    </div>
+    <div id="slider">
+        <button id="l_button" onclick="LeftClick()"></button>
+        <div>
+            <img src="1.jpg" alt="" id="preview">
+        </div>
+        <div id="glass">
+        </div>
+        <button id="r_button" onclick="RightClick()"></button>
+    </div>
+</body>
+<script>
+    let imgs = ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"];
+    const last_img_id = imgs.length - 1;
+    glass = document.getElementById("glass");
+    scope = document.getElementById("scope");
+    scaled_img = document.getElementById("scaled");
+    current_img = document.getElementById("preview");
+    left_button = document.getElementById("l_button");
+    right_button = document.getElementById("r_button");
+
+    const scaling = 4;
+    let mouseIn = false;
+    let mouseOut = true;
+    const slider_w = glass.offsetWidth;
+    const slider_h = glass.offsetHeight;
+    const scaled_w = scaling*scaled_img.offsetWidth;
+    const scaled_h = scaling*scaled_img.offsetHeight;
+    const scope_w = scope.offsetWidth/2;
+    const scope_h = scope.offsetHeight/2;
+
+    function LeftClick() {
+        let img_name = current_img.src.split("/");
+        img_name = img_name[img_name.length - 1];
+        let num = imgs.indexOf(img_name);
+        if (num != 0) {
+            let prev = num - 1;
+            current_img.src = imgs[prev];
+            scaled_img.src = imgs[prev];
+            if (prev === 0) {
+                left_button.hidden = true;
+            }
+        }
+    }
+
+    function RightClick() {
+        let img_name = current_img.src.split("/");
+        img_name = img_name[img_name.length - 1];
+        let num = imgs.indexOf(img_name);
+        if (num != last_img_id) {
+            let next = num + 1;
+            current_img.src = imgs[next];
+            scaled_img.src = imgs[next];
+            if (next === last_img_id) {
+                right_button.hidden = true;
+            }
+        }
+    }
+
+    glass.addEventListener("mouseover", function () {
+        mouseIn = true;
+        mouseOut = false;
+        scope.style.visibility = "visible";
+    });
+    glass.addEventListener("mouseout", function () {
+        mouseIn = false;
+        mouseOut = true;
+        scope.style.visibility = "hidden";
+    });
+    glass.addEventListener("mousemove", function (event) {
+        console.log(scope_w)
+        scope.style.left = event.pageX - scope_w + "px";
+        scope.style.top = event.pageY - scope_h + "px";
+        let box = glass.getBoundingClientRect();
+        let x = (event.pageX - box.left)/slider_w;
+        let y = (event.pageY - box.top)/slider_h;
+        scaled_img.style.transform = "scale(" + scaling + ")";
+        scaled_img.style.left = ((scaling - 1)/(scaling*2) - x)*scaled_w + scope_w + "px";
+        scaled_img.style.top = ((scaling - 1)/(scaling*2) - y)*scaled_h + scope_h + "px";
+    });
+
+</script>
+</html>
